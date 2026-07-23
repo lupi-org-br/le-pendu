@@ -26,16 +26,16 @@ function MakeBackground(game, x, y)
         for i = 0, 38 do
             local t = i / 38
             local d = (1 - (2*t - 1)^2) * 20
-            ui.circfill(x + 14 * i + offset * d, y + 34 - d, 16 - (i%3)*2, 52)
+            ui.circfill(x + 14 * i + offset * d, y + 34 - d, 16 - (i%3)*2, Palette.hex(0x302840))
         end
 
         offset = math.sin(frame / 100)
-        ui.rectfill(x + 0, x + 0, x + 480, y + 10, 53)
+        ui.rectfill(x + 0, x + 0, x + 480, y + 10, Palette.hex(0x383050))
 
         for i = 0, 26 do
             local t = i / 26
             local d = (1 - (2*t - 1)^2) * 20
-            ui.circfill(x + 20 * i + offset * d, y + 20 - d, 18 - (i%4)*2, 53)
+            ui.circfill(x + 20 * i + offset * d, y + 20 - d, 18 - (i%4)*2, Palette.hex(0x383050))
         end
     end
 
