@@ -38,9 +38,16 @@ function MakeLetters(Game,x,y)
         local elapsed = frame - start_f
         if elapsed < 0 or elapsed >= 15 then return 0, 0 end
         local intensity = (15 - elapsed) / 15
-        local sx = math.floor(math.sin(elapsed * 2.5) * 4 * intensity)
-        local sy = math.floor(math.cos(elapsed * 3.1) * 2 * intensity)
-        return sx, sy
+        
+        if is_guessed(char) then
+            local sx = 0
+            local sy = math.floor(math.sin(elapsed * 2.5) * 4 * intensity)
+            return sx, sy
+        else
+            local sx = math.floor(math.sin(elapsed * 2.5) * 4 * intensity)
+            local sy = math.floor(math.cos(elapsed * 3.1) * 2 * intensity)
+            return sx, sy
+        end
     end
 
     lt.reset = function()
