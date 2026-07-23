@@ -1,7 +1,7 @@
 function MakeLetters(Game,x,y)
 
     local current_db_index = 34 + 28
-    local debug = true
+    local debug = false
     local word, hints = nil, nil
     local letters_right = {}
     local letters_wrong = {}
