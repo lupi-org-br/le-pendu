@@ -42,8 +42,8 @@ function MakeBackground(game, x, y)
     bg.draw = function(frame)
         ui.map(bgmap.bg1, bg.x, bg.y)
         draw_cloud(0, 20, frame)
-        ui.spr(SpriteSheets.tree, 0, 32)
-        ui.spr(SpriteSheets[foreground_sprite_name()], 352, 190)
+        ui.spr(Sprites.sprites.tree, 0, 32)
+        ui.spr(Sprites.sprites[foreground_sprite_name()], 352, 190)
     end
     
     return bg

@@ -74,60 +74,60 @@ function MakeSkull(game,x,y)
         local bodypart_lookup = {
             [kBodyPart.head] = function(ctx)
                 local d = math.sin(ctx.cy / 20) * 1
-                ui.tile(SpriteSheets.caveira, 20, sk.x + d, sk.y - 4)
+                ui.tile(Sprites.sprites.caveira, 20, sk.x + d, sk.y - 4)
                 
                 if not ctx.taken then return end
                 _compute_acel(ctx)
                 if not ctx.random_sprite then  ctx.random_sprite = math.random(1, 5) end
-                ui.tile(SpriteSheets.caveira, ctx.random_sprite, sk.x + ctx.cx, sk.y + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, ctx.random_sprite, sk.x + ctx.cx, sk.y + ctx.cy)
             end,
             [kBodyPart.torso] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 7, sk.x + ctx.cx, sk.y + 20 + ctx.cy)
-                ui.tile(SpriteSheets.caveira, 10, sk.x + ctx.cx, sk.y + 52 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 7, sk.x + ctx.cx, sk.y + 20 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 10, sk.x + ctx.cx, sk.y + 52 + ctx.cy)
             end,
             [kBodyPart.left_arm] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 6, sk.x - 17 + ctx.cx, sk.y + 24 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 6, sk.x - 17 + ctx.cx, sk.y + 24 + ctx.cy)
             end,
             [kBodyPart.right_arm] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 8, sk.x + 17 + ctx.cx, sk.y + 24 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 8, sk.x + 17 + ctx.cx, sk.y + 24 + ctx.cy)
             end,
             [kBodyPart.left_forearm] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 9, sk.x - 18 + ctx.cx, sk.y + 49 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 9, sk.x - 18 + ctx.cx, sk.y + 49 + ctx.cy)
             end,
             [kBodyPart.right_forearm] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 11, sk.x + 17 + ctx.cx, sk.y + 49 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 11, sk.x + 17 + ctx.cx, sk.y + 49 + ctx.cy)
             end,
             [kBodyPart.left_leg] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 12, sk.x - 8 + ctx.cx, sk.y + 60 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 12, sk.x - 8 + ctx.cx, sk.y + 60 + ctx.cy)
             end,
             [kBodyPart.right_leg] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 13, sk.x + 8 + ctx.cx, sk.y + 60 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 13, sk.x + 8 + ctx.cx, sk.y + 60 + ctx.cy)
             end,
             [kBodyPart.left_foot] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 15, sk.x - 11 + ctx.cx, sk.y + 85 + ctx.cy)
-                ui.tile(SpriteSheets.caveira, 18, sk.x - 12 + ctx.cx, sk.y + 105 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 15, sk.x - 11 + ctx.cx, sk.y + 85 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 18, sk.x - 12 + ctx.cx, sk.y + 105 + ctx.cy)
             end,
             [kBodyPart.right_foot] = function(ctx)
                 if not ctx.taken then return end
                 _compute_acel(ctx)
-                ui.tile(SpriteSheets.caveira, 16, sk.x + 11 + ctx.cx, sk.y + 85 + ctx.cy)
-                ui.tile(SpriteSheets.caveira, 19, sk.x + 12 + ctx.cx, sk.y + 105 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 16, sk.x + 11 + ctx.cx, sk.y + 85 + ctx.cy)
+                ui.tile(Sprites.sprites.caveira, 19, sk.x + 12 + ctx.cx, sk.y + 105 + ctx.cy)
             end,
         }
 

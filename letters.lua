@@ -75,11 +75,11 @@ function MakeLetters(Game,x,y)
 
     local function _draw_hints_bg(y, frame)
         local dx = hints_timming[y] and hints_timming[y][2] or 120
-        ui.tile(SpriteSheets.dicas, 0, dx + lt.x - 7, lt.y + 72 + y * 20)
+        ui.tile(Sprites.sprites.dicas, 0, dx + lt.x - 7, lt.y + 72 + y * 20)
         for x = 1, 9 do
-            ui.tile(SpriteSheets.dicas, 1, dx + lt.x - 7 + x * 16, lt.y + 72 + y * 20)
+            ui.tile(Sprites.sprites.dicas, 1, dx + lt.x - 7 + x * 16, lt.y + 72 + y * 20)
         end
-        ui.tile(SpriteSheets.dicas, 2, dx + lt.x - 7 + 10 * 16, lt.y + 72 + y * 20)
+        ui.tile(Sprites.sprites.dicas, 2, dx + lt.x - 7 + 10 * 16, lt.y + 72 + y * 20)
     end
 
     local function _draw_hints(frame)
@@ -156,7 +156,7 @@ function MakeLetters(Game,x,y)
                     local time_since_wrong = frame - letters_wrong_timming[letters_wrong[lx+1+ly*5]]
                     local sprite_frame = math.floor(time_since_wrong / 2)
                     if sprite_frame > 2 then sprite_frame = 2 end
-                    ui.tile(SpriteSheets.bgletras, sprite_frame + ly * 3,
+                    ui.tile(Sprites.sprites.bgletras, sprite_frame + ly * 3,
                     lt.x + 32 * lx, lt.y + 32 * ly)
                 end
             end
@@ -179,10 +179,10 @@ function MakeLetters(Game,x,y)
             local text_width = #word * 16
             local text_start = 480 / 2 - text_width / 2
             if is_guessed(char) then
-                ui.tile(SpriteSheets.letras, sprite_index, text_start + (i - 1) * 16, 216)
-                ui.tile(SpriteSheets.letras, 26, text_start + (i - 1) * 16, 216+8)
+                ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16, 216)
+                ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16, 216+8)
             else 
-                ui.tile(SpriteSheets.letras, 27, text_start + (i - 1) * 16, 216+8)
+                ui.tile(Sprites.sprites.letras, 27, text_start + (i - 1) * 16, 216+8)
             end 
         end
 
