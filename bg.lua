@@ -1,5 +1,5 @@
 function MakeBackground(game, x, y)
-    local bgmap = require("bgmap")
+    local bgmap = require("sprites.bgmap")
     local bg = {
         x = x,
         y = y,
