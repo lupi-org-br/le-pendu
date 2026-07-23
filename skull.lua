@@ -57,6 +57,17 @@ function MakeSkull(game,x,y)
         end
     end
 
+    sk.reset = function()
+        for i = 1, sk.bodyparts do
+            sk.ctx[i].taken = false
+            sk.ctx[i].cx = 0
+            sk.ctx[i].cy = 0
+            sk.ctx[i].ax = nil
+            sk.ctx[i].ay = nil
+            sk.ctx[i].random_sprite = nil
+        end
+    end
+
     sk.add_one_more_bodypart = function()
         
         for i = 1, sk.bodyparts do

@@ -1,5 +1,6 @@
 collectgarbage("generational")
 
+Director = require "director"
 require "palette"
 require "sprites"
 require "skull"
@@ -8,28 +9,90 @@ require "bg"
 require "database"
 
 Frame = 0
-Game = {}
+Game = {
+    state = "playing" -- "playing", "won", "lost", "fading_out"
+}
 
 Game.skull = MakeSkull(Game, 66, 56)
 Game.letters = MakeLetters(Game, 290, 52)
 Game.bg = MakeBackground(Game, 0, 0)
 
+Director.fade_in(30)
+
 -- sfx.music("sneaky")
+
+local function print_centered(text, y, color_fg, color_shadow)
+    -- Approximate text centering assuming 8px char width
+    local x = math.floor((480 - #text * 8) / 2)
+    if color_shadow then
+        ui.print(text, x + 1, y + 1, color_shadow)
+    end
+    ui.print(text, x, y, color_fg)
+end
 
 function update()
     Frame = Frame + 1
+    Director.update()
+
     ui.cls(1)
     ui.clip(0, 0, 480, 270)
 
+    -- Palette RGB555 brightness modulation
+    local brightness = Director.get_brightness()
     for i = 1, #Palette do
         local color = Palette[i]
-        ui.palset(i - 1, color)
+        local r = color & 0x1F
+        local g = (color & 0x3E0) >> 5
+        local b = (color & 0x7C00) >> 10
+
+        r = math.floor(r * brightness)
+        g = math.floor(g * brightness)
+        b = math.floor(b * brightness)
+
+        ui.palset(i - 1, r | (g << 5) | (b << 10))
     end
     
     Game.bg.draw(Frame)
     Game.skull.draw(Frame)
     Game.letters.draw(Frame)
 
-    local c = ui.readtext()
-    if c then Game.letters.try_letter(c, Frame) end
-end 
+    local input_char = ui.readtext()
+
+    if Game.state == "playing" then
+        if input_char then
+            Game.letters.try_letter(input_char, Frame)
+        end
+
+        if Game.letters.is_word_guessed() then
+            Game.state = "won"
+        elseif Game.letters.is_game_over() then
+            Game.state = "lost"
+        end
+
+    elseif Game.state == "won" then
+        print_centered("VOCE VENCEU!", 10, Palette.hex(0x5FF7), Palette.hex(0x0000))
+        print_centered("Pressione qualquer tecla para jogardenovo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+
+        if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
+            Director.fade_out(30)
+            Game.state = "fading_out"
+        end
+
+    elseif Game.state == "lost" then
+        print_centered("GAME OVER!", 10, Palette.hex(0x3F7F), Palette.hex(0x0000))
+        print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+
+        if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
+            Director.fade_out(30)
+            Game.state = "fading_out"
+        end
+
+    elseif Game.state == "fading_out" then
+        if not Director.is_fading() then
+            Game.letters.reset()
+            Game.skull.reset()
+            Director.fade_in(30)
+            Game.state = "playing"
+        end
+    end
+end

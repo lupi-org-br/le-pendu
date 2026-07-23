@@ -23,7 +23,34 @@ function MakeLetters(Game,x,y)
         return db[current_db_index].word, db[current_db_index].hints
     end
 
+    lt.reset = function()
+        letters_right = {}
+        letters_wrong = {}
+        letters_wrong_timming = {}
+        hints_timming = {}
+        word, hints = _get_word_from_db()
+    end
+
+    lt.is_word_guessed = function()
+        if not word or #word == 0 then return false end
+        for i = 1, #word do
+            local char = word:sub(i, i)
+            if not is_guessed(char) then return false end
+        end
+        return true
+    end
+
+    lt.is_game_over = function()
+        return #letters_wrong >= 10
+    end
+
+    lt.get_word = function()
+        return word
+    end
+
     lt.try_letter = function(letter, frame)
+        if lt.is_word_guessed() or lt.is_game_over() then return end
+
         letter = string.upper(letter)
         if #letter ~= 1 then return end
         if letter < 'A' or letter > 'Z' then return end
@@ -178,7 +205,7 @@ function MakeLetters(Game,x,y)
             
             local text_width = #word * 16
             local text_start = 480 / 2 - text_width / 2
-            if is_guessed(char) then
+            if is_guessed(char) or lt.is_game_over() then
                 ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16, 216)
                 ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16, 216+8)
             else 
