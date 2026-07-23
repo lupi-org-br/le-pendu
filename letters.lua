@@ -23,6 +23,14 @@ function MakeLetters(Game,x,y)
         return db[current_db_index].word, db[current_db_index].hints
     end
 
+    local function is_guessed(char)
+        local guessed = letters_right
+        for i = 1, #guessed do
+            if guessed[i] == char then return true end
+        end
+        return false
+    end
+
     lt.reset = function()
         letters_right = {}
         letters_wrong = {}
@@ -153,14 +161,6 @@ function MakeLetters(Game,x,y)
             ui.print(hints[3], dx + lt.x + 5, lt.y + 113, Palette.hex(0x807880))
             ui.print(hints[3], dx + lt.x + 5, lt.y + 114, Palette.hex(0xf8f8f8))
         end
-    end
-
-    local function is_guessed(char)
-        local guessed = letters_right
-        for i = 1, #guessed do
-            if guessed[i] == char then return true end
-        end
-        return false
     end
 
     lt.draw = function(frame)
