@@ -1,6 +1,7 @@
 collectgarbage("generational")
 
 Director = require "director"
+Helpers = require "helpers"
 require "palette"
 require "sprites"
 require "skull"
@@ -20,14 +21,6 @@ Game.bg = MakeBackground(Game, 0, 0)
 Director.fade_in(30)
 
 -- sfx.music("sneaky")
-
-local function print_centered(text, y, color_fg, color_shadow)
-    local x = math.floor((480/2) - (#text * 8)/2)
-    if color_shadow then
-        ui.print(text, x + 1, y + 1, color_shadow)
-    end
-    ui.print(text, x, y, color_fg)
-end
 
 function update()
     Frame = Frame + 1
@@ -69,8 +62,8 @@ function update()
         end
 
     elseif Game.state == "won" then
-        print_centered("VOCE VENCEU!", 10, Palette.hex(0x6098f8), Palette.hex(0x201818))
-        print_centered("Pressione qualquer tecla para jogar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+        Helpers.print_centered("ACERTOU!", 10, Palette.hex(0x6098f8), Palette.hex(0x201818))
+        Helpers.print_centered("Pressione qualquer tecla para jogar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
             Director.fade_out(30)
@@ -78,8 +71,8 @@ function update()
         end
 
     elseif Game.state == "lost" then
-        print_centered("GAME OVER!", 10, Palette.hex(0xd85060), Palette.hex(0x201818))
-        print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+        Helpers.print_centered("OPS! ERROU!", 10, Palette.hex(0xd85060), Palette.hex(0x201818))
+        Helpers.print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
             Director.fade_out(30)
