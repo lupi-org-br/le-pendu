@@ -1,4 +1,3 @@
-package.path = '/sdb/apps/pendu/?.lua;'
 collectgarbage("generational")
 
 require "palette"
@@ -15,7 +14,7 @@ Game.skull = MakeSkull(Game, 66, 56)
 Game.letters = MakeLetters(Game, 290, 52)
 Game.bg = MakeBackground(Game, 0, 0)
 
-sfx.music("sneaky")
+-- sfx.music("sneaky")
 
 function update()
     Frame = Frame + 1
