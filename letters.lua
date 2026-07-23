@@ -112,19 +112,19 @@ function MakeLetters(Game,x,y)
         if debug or #letters_wrong >= 3 then
             local dx = hints_timming[0][2]
             ui.print(hints[1], dx + lt.x + 5, lt.y + 73, Palette.hex(0x807880))
-            ui.print(hints[1], dx + lt.x + 5, lt.y + 74, Palette.hex(0x98a8b0))
+            ui.print(hints[1], dx + lt.x + 5, lt.y + 74, Palette.hex(0xf8f8f8))
         end
 
         if debug or #letters_wrong >= 6 then
             local dx = hints_timming[1][2]
             ui.print(hints[2], dx + lt.x + 5, lt.y + 93, Palette.hex(0x807880))
-            ui.print(hints[2], dx + lt.x + 5, lt.y + 94, Palette.hex(0x98a8b0))
+            ui.print(hints[2], dx + lt.x + 5, lt.y + 94, Palette.hex(0xf8f8f8))
         end
 
         if debug or #letters_wrong >= 9 then
             local dx = hints_timming[2][2]
             ui.print(hints[3], dx + lt.x + 5, lt.y + 113, Palette.hex(0x807880))
-            ui.print(hints[3], dx + lt.x + 5, lt.y + 114, Palette.hex(0x98a8b0))
+            ui.print(hints[3], dx + lt.x + 5, lt.y + 114, Palette.hex(0xf8f8f8))
         end
     end
 
