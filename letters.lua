@@ -111,20 +111,20 @@ function MakeLetters(Game,x,y)
 
         if debug or #letters_wrong >= 3 then
             local dx = hints_timming[0][2]
-            ui.print(hints[1], dx + lt.x + 5, lt.y + 73, 8)
-            ui.print(hints[1], dx + lt.x + 5, lt.y + 74, 4)
+            ui.print(hints[1], dx + lt.x + 5, lt.y + 73, Palette.hex(0x807880))
+            ui.print(hints[1], dx + lt.x + 5, lt.y + 74, Palette.hex(0x98a8b0))
         end
 
         if debug or #letters_wrong >= 6 then
             local dx = hints_timming[1][2]
-            ui.print(hints[2], dx + lt.x + 5, lt.y + 93, 8)
-            ui.print(hints[2], dx + lt.x + 5, lt.y + 94, 4)
+            ui.print(hints[2], dx + lt.x + 5, lt.y + 93, Palette.hex(0x807880))
+            ui.print(hints[2], dx + lt.x + 5, lt.y + 94, Palette.hex(0x98a8b0))
         end
 
         if debug or #letters_wrong >= 9 then
             local dx = hints_timming[2][2]
-            ui.print(hints[3], dx + lt.x + 5, lt.y + 113, 8)
-            ui.print(hints[3], dx + lt.x + 5, lt.y + 114, 4)
+            ui.print(hints[3], dx + lt.x + 5, lt.y + 113, Palette.hex(0x807880))
+            ui.print(hints[3], dx + lt.x + 5, lt.y + 114, Palette.hex(0x98a8b0))
         end
     end
 
@@ -145,7 +145,7 @@ function MakeLetters(Game,x,y)
         for ly = 0, 1 do 
             for lx = 0, 4 do
                 if not letters_wrong[lx+1+ly*5] then
-                    ui.circfill(lt.x + 16 + 32 * lx, lt.y + 16 + 32 * ly, 6, 38)
+                    ui.circfill(lt.x + 16 + 32 * lx, lt.y + 16 + 32 * ly, 6, Palette.hex(0x607088))
                 end
             end
         end
@@ -166,7 +166,7 @@ function MakeLetters(Game,x,y)
             for lx = 0, 4 do
                 if letters_wrong[lx+1+ly*5] then
                     ui.print(letters_wrong[lx+1+ly*5],
-                    lt.x + 12 + 32 * lx, lt.y + 11  + 32 * ly, 4)
+                    lt.x + 12 + 32 * lx, lt.y + 11  + 32 * ly, Palette.hex(0xf8f8f8))
                 end
             end
         end 
