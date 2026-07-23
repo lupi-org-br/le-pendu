@@ -29,7 +29,6 @@ function update()
     ui.cls(1)
     ui.clip(0, 0, 480, 270)
 
-    -- Palette RGB555 brightness modulation
     local brightness = Director.get_brightness()
     for i = 1, #Palette do
         local color = Palette[i]
@@ -57,22 +56,26 @@ function update()
 
         if Game.letters.is_word_guessed() then
             Game.state = "won"
+            Game.state_start_frame = Frame
         elseif Game.letters.is_game_over() then
             Game.state = "lost"
+            Game.state_start_frame = Frame
         end
 
-    elseif Game.state == "won" then
-        Helpers.print_sine_centered("ACERTOU!", 10, Frame, Palette.hex(0x6098f8), Palette.hex(0x201818))
-        Helpers.print_centered("Pressione qualquer tecla para jogar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+    elseif Game.state == "won" or Game.state == "lost" then
+        local elapsed = Frame - (Game.state_start_frame or Frame)
+        local ease = Helpers.ease_out_cubic(elapsed / 25)
 
-        if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
-            Director.fade_out(30)
-            Game.state = "fading_out"
+        local title_y = math.floor(-30 + (10 - (-30)) * ease)
+        local sub_y = math.floor(285 - (285 - 250) * ease)
+
+        if Game.state == "won" then
+            Helpers.print_sine_centered("ACERTOU!", title_y, Frame, Palette.hex(0x6098f8), Palette.hex(0x201818))
+            Helpers.print_centered("Pressione qualquer tecla para jogar de novo", sub_y, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+        else
+            Helpers.print_sine_centered("OPS! ERROU!", title_y, Frame, Palette.hex(0xd85060), Palette.hex(0x201818))
+            Helpers.print_centered("Pressione qualquer tecla para tentar de novo", sub_y, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
         end
-
-    elseif Game.state == "lost" then
-        Helpers.print_sine_centered("OPS! ERROU!", 10, Frame, Palette.hex(0xd85060), Palette.hex(0x201818))
-        Helpers.print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
             Director.fade_out(30)

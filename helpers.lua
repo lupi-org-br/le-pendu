@@ -82,4 +82,11 @@ Helpers.print_sine_centered = function(text, y, frame, color_fg, color_shadow, a
     return Helpers.print_centered(animated_text, y, color_fg, color_shadow, screen_width)
 end
 
+Helpers.ease_out_cubic = function(t)
+    if t <= 0 then return 0 end
+    if t >= 1 then return 1 end
+    local inv = 1 - t
+    return 1 - inv * inv * inv
+end
+
 return Helpers
