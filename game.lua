@@ -23,7 +23,7 @@ Director.fade_in(30)
 
 local function print_centered(text, y, color_fg, color_shadow)
     -- Approximate text centering assuming 8px char width
-    local x = math.floor((480 - #text * 8) / 2)
+    local x = math.floor((480/2) - (#text * 8) / 2)
     if color_shadow then
         ui.print(text, x + 1, y + 1, color_shadow)
     end
@@ -70,8 +70,8 @@ function update()
         end
 
     elseif Game.state == "won" then
-        print_centered("VOCE VENCEU!", 10, Palette.hex(0x5FF7), Palette.hex(0x0000))
-        print_centered("Pressione qualquer tecla para jogardenovo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
+        print_centered("VOCE VENCEU!", 10, Palette.hex(0x6098f8), Palette.hex(0x201818))
+        print_centered("Pressione qualquer tecla para jogar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
             Director.fade_out(30)
@@ -79,7 +79,7 @@ function update()
         end
 
     elseif Game.state == "lost" then
-        print_centered("GAME OVER!", 10, Palette.hex(0x3F7F), Palette.hex(0x0000))
+        print_centered("GAME OVER!", 10, Palette.hex(0xd85060), Palette.hex(0x201818))
         print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
