@@ -22,8 +22,7 @@ Director.fade_in(30)
 -- sfx.music("sneaky")
 
 local function print_centered(text, y, color_fg, color_shadow)
-    -- Approximate text centering assuming 8px char width
-    local x = math.floor((480/2) - (#text * 8) / 2)
+    local x = math.floor((480/2) - (#text * 8)/2)
     if color_shadow then
         ui.print(text, x + 1, y + 1, color_shadow)
     end
