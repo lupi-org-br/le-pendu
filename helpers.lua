@@ -21,11 +21,49 @@ end
 
 Helpers.get_text_width = function(text)
     local width = 0
-    for i = 1, #text do
-        local c = text:sub(i, i)
-        width = width + Helpers.get_char_width(c)
+    local i = 1
+    while i <= #text do
+        local b = text:byte(i)
+        if b == 1 or b == 2 then
+            i = i + 2 -- skip font escape sequence control code and option byte
+        else
+            local c = text:sub(i, i)
+            width = width + Helpers.get_char_width(c)
+            i = i + 1
+        end
     end
     return width
+end
+
+Helpers.sine_wave_text = function(text, frame, amplitude, frequency)
+    amplitude = amplitude or 3
+    frequency = frequency or 0.15
+    local result = {}
+    local curr_shift = 0
+
+    for j = 1, #text do
+        local char = text:sub(j, j)
+        if char == " " then
+            table.insert(result, " ")
+        else
+            local target_dy = math.floor(math.sin(frame * frequency + j * 0.7) * amplitude)
+            local delta = target_dy - curr_shift
+            if delta < -32 then delta = -32 end
+            if delta > 31 then delta = 31 end
+
+            table.insert(result, "\2" .. string.char(160 + delta) .. char)
+            curr_shift = target_dy
+        end
+    end
+
+    if curr_shift ~= 0 then
+        local reset_delta = -curr_shift
+        if reset_delta < -32 then reset_delta = -32 end
+        if reset_delta > 31 then reset_delta = 31 end
+        table.insert(result, "\2" .. string.char(160 + reset_delta))
+    end
+
+    return table.concat(result)
 end
 
 Helpers.print_centered = function(text, y, color_fg, color_shadow, screen_width)
@@ -37,6 +75,11 @@ Helpers.print_centered = function(text, y, color_fg, color_shadow, screen_width)
     end
     ui.print(text, x, y, color_fg)
     return x
+end
+
+Helpers.print_sine_centered = function(text, y, frame, color_fg, color_shadow, amplitude, frequency, screen_width)
+    local animated_text = Helpers.sine_wave_text(text, frame, amplitude, frequency)
+    return Helpers.print_centered(animated_text, y, color_fg, color_shadow, screen_width)
 end
 
 return Helpers

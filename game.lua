@@ -62,7 +62,7 @@ function update()
         end
 
     elseif Game.state == "won" then
-        Helpers.print_centered("ACERTOU!", 10, Palette.hex(0x6098f8), Palette.hex(0x201818))
+        Helpers.print_sine_centered("ACERTOU!", 10, Frame, Palette.hex(0x6098f8), Palette.hex(0x201818))
         Helpers.print_centered("Pressione qualquer tecla para jogar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
@@ -71,7 +71,7 @@ function update()
         end
 
     elseif Game.state == "lost" then
-        Helpers.print_centered("OPS! ERROU!", 10, Palette.hex(0xd85060), Palette.hex(0x201818))
+        Helpers.print_sine_centered("OPS! ERROU!", 10, Frame, Palette.hex(0xd85060), Palette.hex(0x201818))
         Helpers.print_centered("Pressione qualquer tecla para tentar de novo", 25, Palette.hex(0xf8f8f8), Palette.hex(0x0000))
 
         if input_char or ui.btnp(BTN_Z) or ui.btnp(BTN_X) then
