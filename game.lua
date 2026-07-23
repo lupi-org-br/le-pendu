@@ -20,7 +20,7 @@ Game.bg = MakeBackground(Game, 0, 0)
 
 Director.fade_in(30)
 
--- sfx.music("sneaky")
+sfx.music("music/sneaky")
 
 function update()
     Frame = Frame + 1
