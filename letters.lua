@@ -6,6 +6,7 @@ function MakeLetters(Game,x,y)
     local letters_right = {}
     local letters_wrong = {}
     local letters_wrong_timming = {}
+    local letters_shake_timing = {}
     local hints_timming = {}
     local lt = {
         x = x,
@@ -31,10 +32,22 @@ function MakeLetters(Game,x,y)
         return false
     end
 
+    local function _get_shake_offset(char, frame)
+        local start_f = letters_shake_timing[char]
+        if not start_f then return 0, 0 end
+        local elapsed = frame - start_f
+        if elapsed < 0 or elapsed >= 15 then return 0, 0 end
+        local intensity = (15 - elapsed) / 15
+        local sx = math.floor(math.sin(elapsed * 2.5) * 4 * intensity)
+        local sy = math.floor(math.cos(elapsed * 3.1) * 2 * intensity)
+        return sx, sy
+    end
+
     lt.reset = function()
         letters_right = {}
         letters_wrong = {}
         letters_wrong_timming = {}
+        letters_shake_timing = {}
         hints_timming = {}
         word, hints = _get_word_from_db()
     end
@@ -69,7 +82,10 @@ function MakeLetters(Game,x,y)
         for i = 1, #word do
             if word:sub(i,i) == letter then
                 for j = 1, #guessed do
-                    if guessed[j] == letter then return end
+                    if guessed[j] == letter then
+                        letters_shake_timing[letter] = frame
+                        return
+                    end
                 end
                 table.insert(letters_right, letter)
                 return
@@ -77,7 +93,10 @@ function MakeLetters(Game,x,y)
         end
 
         for j = 1, #wrong do
-            if wrong[j] == letter then return end
+            if wrong[j] == letter then
+                letters_shake_timing[letter] = frame
+                return
+            end
         end
 
         table.insert(letters_wrong, letter)
@@ -179,21 +198,25 @@ function MakeLetters(Game,x,y)
 
         for ly = 0, 1 do 
             for lx = 0, 4 do
-                if letters_wrong[lx+1+ly*5] then
-                    local time_since_wrong = frame - letters_wrong_timming[letters_wrong[lx+1+ly*5]]
+                local wrong_char = letters_wrong[lx+1+ly*5]
+                if wrong_char then
+                    local sx, sy = _get_shake_offset(wrong_char, frame)
+                    local time_since_wrong = frame - letters_wrong_timming[wrong_char]
                     local sprite_frame = math.floor(time_since_wrong / 2)
                     if sprite_frame > 2 then sprite_frame = 2 end
                     ui.tile(Sprites.sprites.bgletras, sprite_frame + ly * 3,
-                    lt.x + 32 * lx, lt.y + 32 * ly)
+                    lt.x + 32 * lx + sx, lt.y + 32 * ly + sy)
                 end
             end
         end
 
         for ly = 0, 1 do 
             for lx = 0, 4 do
-                if letters_wrong[lx+1+ly*5] then
-                    ui.print(letters_wrong[lx+1+ly*5],
-                    lt.x + 12 + 32 * lx, lt.y + 11  + 32 * ly, Palette.hex(0xf8f8f8))
+                local wrong_char = letters_wrong[lx+1+ly*5]
+                if wrong_char then
+                    local sx, sy = _get_shake_offset(wrong_char, frame)
+                    ui.print(wrong_char,
+                    lt.x + 12 + 32 * lx + sx, lt.y + 11  + 32 * ly + sy, Palette.hex(0xf8f8f8))
                 end
             end
         end 
@@ -205,11 +228,12 @@ function MakeLetters(Game,x,y)
             
             local text_width = #word * 16
             local text_start = 480 / 2 - text_width / 2
+            local sx, sy = _get_shake_offset(char, frame)
             if is_guessed(char) or lt.is_game_over() then
-                ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16, 216)
-                ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16, 216+8)
+                ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16 + sx, 216 + sy)
+                ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16 + sx, 216 + 8 + sy)
             else 
-                ui.tile(Sprites.sprites.letras, 27, text_start + (i - 1) * 16, 216+8)
+                ui.tile(Sprites.sprites.letras, 27, text_start + (i - 1) * 16 + sx, 216 + 8 + sy)
             end 
         end
 
