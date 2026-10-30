@@ -1,0 +1,15 @@
+local BTN = {}
+
+BTN.Z = BTN_Z
+BTN.X = BTN_X
+BTN.F = BTN_F
+BTN.G = BTN_G
+BTN.Q = BTN_Q
+BTN.E = BTN_E
+
+BTN.UP = UP
+BTN.DOWN = DOWN
+BTN.LEFT = LEFT
+BTN.RIGHT = RIGHT
+
+return BTN

@@ -1,3 +1,4 @@
+
 function MakeLetters(Game,x,y)
 
     local current_db_index = 34 + 28
@@ -16,9 +17,9 @@ function MakeLetters(Game,x,y)
     local function _get_word_from_db()
         local db = Database
         if debug then
-            return db[current_db_index].word, db[current_db_index].hints 
-        end 
-        
+            return db[current_db_index].word, db[current_db_index].hints
+        end
+
         math.randomseed(os.time() + Frame)
         current_db_index = math.random(1, #db)
         return db[current_db_index].word, db[current_db_index].hints
@@ -38,7 +39,7 @@ function MakeLetters(Game,x,y)
         local elapsed = frame - start_f
         if elapsed < 0 or elapsed >= 15 then return 0, 0 end
         local intensity = (15 - elapsed) / 15
-        
+
         if is_guessed(char) then
             local sx = 0
             local sy = math.floor(math.sin(elapsed * 2.5) * 4 * intensity)
@@ -112,17 +113,16 @@ function MakeLetters(Game,x,y)
     end
 
     local function _update_hints_timming(y, frame)
-        if hints_timming[y] == nil then 
+        if hints_timming[y] == nil then
             hints_timming[y] = {frame, 0}
         end
-        
+
         local total_x_change = 210
         local total_frames   = 60
         local start_frame   = hints_timming[y][1]
         local end_frame     = start_frame + total_frames
         local completion    = (frame - start_frame) / total_frames
 
-        -- clamp completion between 0 and 1
         if completion < 0 then completion = 0 end
         if completion > 1 then completion = 1 end
 
@@ -131,8 +131,8 @@ function MakeLetters(Game,x,y)
         end
 
         local dx = math.floor(strong_ease_out(completion) * total_x_change)
-        hints_timming[y][2] = total_x_change -  dx
-    end 
+        hints_timming[y][2] = total_x_change - dx
+    end
 
     local function _draw_hints_bg(y, frame)
         local dx = hints_timming[y] and hints_timming[y][2] or 120
@@ -144,27 +144,26 @@ function MakeLetters(Game,x,y)
     end
 
     local function _draw_hints(frame)
-
-        if debug and ui.btnp(BTN_E, 2) then 
+        if debug and ui.btnp(BTN_E, 2) then
             current_db_index = current_db_index + 1
             word, hints = _get_word_from_db()
-        end 
+        end
 
-        if debug and ui.btnp(BTN_Q, 2) then 
+        if debug and ui.btnp(BTN_Q, 2) then
             current_db_index = current_db_index - 1
             word, hints = _get_word_from_db()
         end
 
-        if debug or #letters_wrong >= 3 then 
+        if debug or #letters_wrong >= 3 then
             _update_hints_timming(0, frame)
             _draw_hints_bg(0, frame)
         end
-        
-        if debug or #letters_wrong >= 6 then 
+
+        if debug or #letters_wrong >= 6 then
             _update_hints_timming(1, frame)
             _draw_hints_bg(1, frame)
         end
-        
+
         if debug or #letters_wrong >= 9 then
             _update_hints_timming(2, frame)
             _draw_hints_bg(2, frame)
@@ -172,38 +171,37 @@ function MakeLetters(Game,x,y)
 
         if debug or #letters_wrong >= 3 then
             local dx = hints_timming[0][2]
-            ui.print(hints[1], dx + lt.x + 5, lt.y + 73, Palette.hex(0x807880))
-            ui.print(hints[1], dx + lt.x + 5, lt.y + 74, Palette.hex(0xf8f8f8))
+            ui.print(hints[1], dx + lt.x + 4, lt.y + 75, 0x7E80)
+            ui.print(hints[1], dx + lt.x + 5, lt.y + 76, 0x41F0)
         end
 
         if debug or #letters_wrong >= 6 then
             local dx = hints_timming[1][2]
-            ui.print(hints[2], dx + lt.x + 5, lt.y + 93, Palette.hex(0x807880))
-            ui.print(hints[2], dx + lt.x + 5, lt.y + 94, Palette.hex(0xf8f8f8))
+            ui.print(hints[2], dx + lt.x + 4, lt.y + 95, 0x7E80)
+            ui.print(hints[2], dx + lt.x + 5, lt.y + 96, 0x41F0)
         end
 
         if debug or #letters_wrong >= 9 then
             local dx = hints_timming[2][2]
-            ui.print(hints[3], dx + lt.x + 5, lt.y + 113, Palette.hex(0x807880))
-            ui.print(hints[3], dx + lt.x + 5, lt.y + 114, Palette.hex(0xf8f8f8))
+            ui.print(hints[3], dx + lt.x + 4, lt.y + 115, 0x7E80)
+            ui.print(hints[3], dx + lt.x + 5, lt.y + 116, 0x41F0)
         end
     end
 
     lt.draw = function(frame)
-
-        if not word then 
+        if not word then
             word, hints = _get_word_from_db()
         end
 
-        for ly = 0, 1 do 
+        for ly = 0, 1 do
             for lx = 0, 4 do
                 if not letters_wrong[lx+1+ly*5] then
-                    ui.circfill(lt.x + 16 + 32 * lx, lt.y + 16 + 32 * ly, 6, Palette.hex(0x607088))
+                    ui.circfill(lt.x + 16 + 32 * lx, lt.y + 16 + 32 * ly, 6, 0x31D1)
                 end
             end
         end
 
-        for ly = 0, 1 do 
+        for ly = 0, 1 do
             for lx = 0, 4 do
                 local wrong_char = letters_wrong[lx+1+ly*5]
                 if wrong_char then
@@ -217,35 +215,35 @@ function MakeLetters(Game,x,y)
             end
         end
 
-        for ly = 0, 1 do 
+        for ly = 0, 1 do
             for lx = 0, 4 do
                 local wrong_char = letters_wrong[lx+1+ly*5]
                 if wrong_char then
                     local sx, sy = _get_shake_offset(wrong_char, frame)
                     ui.print(wrong_char,
-                    lt.x + 12 + 32 * lx + sx, lt.y + 11  + 32 * ly + sy, Palette.hex(0xf8f8f8))
+                    lt.x + 12 + 32 * lx + sx, lt.y + 11 + 32 * ly + sy, 0x7FFF)
                 end
             end
-        end 
+        end
 
         for i = 1, #word do
             local char = word:sub(i, i)
             local char_code = string.byte(char)
             local sprite_index = char_code - string.byte('A')
-            
+
             local text_width = #word * 16
-            local text_start = 480 / 2 - text_width / 2
+            local text_start = 480 / 2 - text_width / 2 - 110
             local sx, sy = _get_shake_offset(char, frame)
             if is_guessed(char) or lt.is_game_over() then
-                ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16 + sx, 216 + sy)
-                ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16 + sx, 216 + 8 + sy)
-            else 
-                ui.tile(Sprites.sprites.letras, 27, text_start + (i - 1) * 16 + sx, 216 + 8 + sy)
-            end 
+                ui.tile(Sprites.sprites.letras, sprite_index, text_start + (i - 1) * 16 + sx, 202 + sy)
+                ui.tile(Sprites.sprites.letras, 26, text_start + (i - 1) * 16 + sx, 202 + 8 + sy)
+            else
+                ui.tile(Sprites.sprites.letras, 27, text_start + (i - 1) * 16 + sx, 202 + 8 + sy)
+            end
         end
 
         _draw_hints(frame)
     end
-    
+
     return lt
 end

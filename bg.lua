@@ -18,7 +18,6 @@ function MakeBackground(game, x, y)
         if bg.fg_frame < 20 then return "arbusto" .. bg.fg_sprite
         else return "arbusto1" end
     end
-
     local function draw_cloud(x, y, frame)
         local offset = math.sin(frame / 200)
         ui.rectfill(x + 0, y + 9, x + 480, y + 20, 52)
@@ -26,16 +25,16 @@ function MakeBackground(game, x, y)
         for i = 0, 38 do
             local t = i / 38
             local d = (1 - (2*t - 1)^2) * 20
-            ui.circfill(x + 14 * i + offset * d, y + 34 - d, 16 - (i%3)*2, Palette.hex(0x302840))
+            ui.circfill(x + 14 * i + offset * d, y + 34 - d, 16 - (i%3)*2, 0x18A8)
         end
 
         offset = math.sin(frame / 100)
-        ui.rectfill(x + 0, x + 0, x + 480, y + 10, Palette.hex(0x383050))
+        ui.rectfill(x + 0, x + 0, x + 480, y + 10, 0x1CCA)
 
         for i = 0, 26 do
             local t = i / 26
             local d = (1 - (2*t - 1)^2) * 20
-            ui.circfill(x + 20 * i + offset * d, y + 20 - d, 18 - (i%4)*2, Palette.hex(0x383050))
+            ui.circfill(x + 20 * i + offset * d, y + 20 - d, 18 - (i%4)*2,0x1CCA)
         end
     end
 
